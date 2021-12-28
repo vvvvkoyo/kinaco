@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -72,8 +73,9 @@ func (k *kinaco) generate() string {
 }
 
 func readLine(filename string) []string {
-	pwd, _ := os.Getwd()
-	file, err := os.Open(filepath.Join(pwd, filename))
+	_, b, _, _ := runtime.Caller(1)
+	basePath := filepath.Dir(b)
+	file, err := os.Open(filepath.Join(basePath, filename))
 	if err != nil {
 		log.Fatalf("file can not open: %v", err)
 	}
